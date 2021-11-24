@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.tokoelektronik.loadingbar;
 
 import com.tokoelektronik.dashboard.TokoElektronikDashboard;
@@ -11,10 +6,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.Timer;
 
-/**
- *
- * @author Refanda Surya
- */
 public class LoadingView extends javax.swing.JFrame {
     
     private Timer progressTime;
@@ -79,6 +70,8 @@ public class LoadingView extends javax.swing.JFrame {
 
         jLabel2.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
         jLabel2.setText("Loading...");
+
+        progressBar.setBackground(new java.awt.Color(51, 153, 255));
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);

@@ -1,24 +1,90 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.tokoelektronik.dashboard;
 
+import com.tokoelektronik.functions.DataBarang;
+import com.tokoelektronik.functions.DataPelanggan;
+import com.tokoelektronik.login.TokoElektronikLogin;
 import java.awt.Color;
 import java.awt.Component;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.sql.Time;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import javax.swing.JOptionPane;
+import javax.swing.Timer;
+import javax.swing.table.DefaultTableModel;
 
-/**
- *
- * @author Refanda Surya
- */
 public class TokoElektronikDashboard extends javax.swing.JFrame {
+    
+    DefaultTableModel modelPelanggan = new DefaultTableModel();
+    DefaultTableModel modelBarang = new DefaultTableModel();
+    DataPelanggan dataPelanggan;
+    Timer timer;
 
     /**
      * Creates new form TokoElektronikDashboard
      */
     public TokoElektronikDashboard() {
+        
         initComponents();
+        setColoumTable();
+        setCannotBeChanged();
+        setTabelBarang();
+        setTabelPelanggan();
+        setIdPelanggan();
+        setIdBarang();
+        setZero();
+        setDashboard();
+        setDateAndTime();
+    }
+    
+    void setDateAndTime(){   
+        ActionListener actionListener = new ActionListener(){
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Date date = new Date();
+                SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+                txtTime.setText(format.format(date));
+            }  
+        };
+        
+        timer = new Timer(1000, actionListener);
+        timer.setInitialDelay(0);
+        timer.start();
+    }
+    
+    void setColoumTable(){
+        
+        modelPelanggan.addColumn("ID Pelanggan");
+        modelPelanggan.addColumn("Nama Pelanggan");
+        modelPelanggan.addColumn("Umur");
+        modelPelanggan.addColumn("No Telepon");
+        tbPelanggan.setModel(modelPelanggan);
+        
+        modelBarang.addColumn("ID Barang");
+        modelBarang.addColumn("Nama Barang");
+        modelBarang.addColumn("Harga Barang");
+        modelBarang.addColumn("Jumlah Barang");
+        tbBarang.setModel(modelBarang);
+     
+    }
+    
+    void setDashboard(){
+        txtDataBarang.setText(String.valueOf(tbBarang.getRowCount()) + " Barang");
+        txtDataPelanggan.setText(String.valueOf(tbPelanggan.getRowCount()) + " Pelanggan");
+    }
+    
+    void setZero(){
+        
+        fdHargaBarang.setText("0");
+        fdJumlahBarang.setText("0");
+        fdUmur.setText("0");
+    }
+    
+    void setCannotBeChanged(){
+        
+        fdIdBarang.setEditable(false);
+        fdIdPelanggan.setEditable(false);
     }
     
     void changePanel(Component a){
@@ -28,8 +94,98 @@ public class TokoElektronikDashboard extends javax.swing.JFrame {
         pnBody.revalidate();
         pnBody.add(a);
         pnBody.repaint();
-        pnBody.revalidate();
+        pnBody.revalidate();  
+    }
+    
+    void emptyFieldsBarang(){
         
+        fdIdBarang.setText("");
+        fdNamaBarang.setText("");
+        fdHargaBarang.setText("");
+        fdJumlahBarang.setText("");  
+    }
+    
+    void emptyFieldsPelanggan(){
+        
+        fdIdPelanggan.setText("");
+        fdNamaPelanggan.setText("");
+        fdUmur.setText("");
+        fdNoTelepon.setText("");
+    }
+    
+    void setTabelPelanggan(){
+        
+        modelPelanggan.addRow(new Object[]{
+           "P0001",
+            "Riswan",
+            "19",
+            "083190123213"
+        });
+        
+        modelPelanggan.addRow(new Object[]{
+           "P0002",
+            "Wanto",
+            "40",
+            "083190123266"
+        });
+        
+        modelPelanggan.addRow(new Object[]{
+           "P0003",
+            "Anjani",
+            "24",
+            "083122123266"
+        });
+        
+    }
+    
+    void setTabelBarang(){
+        
+        modelBarang.addRow(new Object[]{
+            "B0001",
+            "Mouse",
+            "20000",
+            "20"
+        });
+        
+        modelBarang.addRow(new Object[]{
+            "B0002",
+            "Keyboard",
+            "15000",
+            "10"
+        });
+        
+        
+    }
+    
+    void setIdBarang(){
+        
+        int i = 1;
+        
+        if(tbBarang.getRowCount() == 0){
+            
+            fdIdBarang.setText("B000"+i);
+   
+        }else{
+            
+            i = tbBarang.getRowCount() + 1;
+            
+            fdIdBarang.setText("B000"+i);
+            
+        }
+  
+    }
+    
+    void setIdPelanggan(){
+        
+        int i = 1;
+        
+        if(tbPelanggan.getRowCount() == 0){
+            
+            fdIdPelanggan.setText("P000"+i);
+        }else{
+            i = tbPelanggan.getRowCount() + 1;
+            fdIdPelanggan.setText("P000"+i);
+        }
     }
 
     /**
@@ -50,31 +206,52 @@ public class TokoElektronikDashboard extends javax.swing.JFrame {
         txtBar1 = new javax.swing.JLabel();
         txtBar2 = new javax.swing.JLabel();
         txtBar3 = new javax.swing.JLabel();
+        txtTime = new javax.swing.JLabel();
+        jLabel5 = new javax.swing.JLabel();
+        jLabel8 = new javax.swing.JLabel();
         pnBody = new javax.swing.JPanel();
         spDashboard = new javax.swing.JScrollPane();
         jPanel3 = new javax.swing.JPanel();
         jLabel3 = new javax.swing.JLabel();
         jPanel5 = new javax.swing.JPanel();
         jLabel4 = new javax.swing.JLabel();
-        jLabel5 = new javax.swing.JLabel();
+        txtDataBarang = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
         jPanel6 = new javax.swing.JPanel();
         jLabel7 = new javax.swing.JLabel();
-        jLabel8 = new javax.swing.JLabel();
+        txtDataPelanggan = new javax.swing.JLabel();
         pnBarang = new javax.swing.JPanel();
         jLabel9 = new javax.swing.JLabel();
         jSeparator1 = new javax.swing.JSeparator();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        tbBarang = new javax.swing.JTable();
         btnHapusBarang = new javax.swing.JButton();
         btnUbahBarang = new javax.swing.JButton();
+        jLabel11 = new javax.swing.JLabel();
+        fdIdBarang = new javax.swing.JTextField();
+        jLabel12 = new javax.swing.JLabel();
+        fdNamaBarang = new javax.swing.JTextField();
+        jLabel13 = new javax.swing.JLabel();
+        fdHargaBarang = new javax.swing.JTextField();
+        jLabel14 = new javax.swing.JLabel();
+        fdJumlahBarang = new javax.swing.JTextField();
+        btnTambahBarang = new javax.swing.JButton();
         pnPelanggan = new javax.swing.JPanel();
         jLabel10 = new javax.swing.JLabel();
         jSeparator2 = new javax.swing.JSeparator();
         jScrollPane2 = new javax.swing.JScrollPane();
-        jTable2 = new javax.swing.JTable();
+        tbPelanggan = new javax.swing.JTable();
         btnHapusPelanggan = new javax.swing.JButton();
         btnUbahPelanggan = new javax.swing.JButton();
+        jLabel15 = new javax.swing.JLabel();
+        fdIdPelanggan = new javax.swing.JTextField();
+        jLabel16 = new javax.swing.JLabel();
+        fdNamaPelanggan = new javax.swing.JTextField();
+        jLabel17 = new javax.swing.JLabel();
+        fdUmur = new javax.swing.JTextField();
+        jLabel18 = new javax.swing.JLabel();
+        fdNoTelepon = new javax.swing.JTextField();
+        btnTambahPelanggan = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -84,7 +261,7 @@ public class TokoElektronikDashboard extends javax.swing.JFrame {
 
         jLabel1.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel1.setText("Admin Toko Elektronik");
+        jLabel1.setText("Admin Toko Komputer");
 
         btnDashboard.setBackground(new java.awt.Color(255, 255, 255));
         btnDashboard.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
@@ -134,6 +311,21 @@ public class TokoElektronikDashboard extends javax.swing.JFrame {
         txtBar3.setBackground(new java.awt.Color(255, 255, 255));
         txtBar3.setOpaque(true);
 
+        txtTime.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
+        txtTime.setForeground(new java.awt.Color(255, 255, 255));
+        txtTime.setText("2021/11/24 15:25:30");
+
+        jLabel5.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel5.setText("Selamat Datang, Admin");
+
+        jLabel8.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/tokoelektronik/icons/logout.png"))); // NOI18N
+        jLabel8.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        jLabel8.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLabel8MouseClicked(evt);
+            }
+        });
+
         javax.swing.GroupLayout pnHeadLayout = new javax.swing.GroupLayout(pnHead);
         pnHead.setLayout(pnHeadLayout);
         pnHeadLayout.setHorizontalGroup(
@@ -143,7 +335,6 @@ public class TokoElektronikDashboard extends javax.swing.JFrame {
                 .addComponent(jLabel2)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(pnHeadLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel1)
                     .addGroup(pnHeadLayout.createSequentialGroup()
                         .addGroup(pnHeadLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(btnDashboard, javax.swing.GroupLayout.DEFAULT_SIZE, 130, Short.MAX_VALUE)
@@ -157,8 +348,18 @@ public class TokoElektronikDashboard extends javax.swing.JFrame {
                             .addGroup(pnHeadLayout.createSequentialGroup()
                                 .addComponent(btnBarang, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(btnPelanggan, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)))))
-                .addGap(0, 0, 0))
+                                .addComponent(btnPelanggan, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(pnHeadLayout.createSequentialGroup()
+                        .addComponent(jLabel1)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jLabel8))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnHeadLayout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addGroup(pnHeadLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel5, javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(txtTime, javax.swing.GroupLayout.Alignment.TRAILING))))
+                .addContainerGap())
         );
         pnHeadLayout.setVerticalGroup(
             pnHeadLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -169,8 +370,17 @@ public class TokoElektronikDashboard extends javax.swing.JFrame {
                         .addComponent(jLabel2)
                         .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(pnHeadLayout.createSequentialGroup()
-                        .addGap(62, 62, 62)
-                        .addComponent(jLabel1)
+                        .addContainerGap()
+                        .addComponent(jLabel5)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(txtTime)
+                        .addGroup(pnHeadLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(pnHeadLayout.createSequentialGroup()
+                                .addGap(17, 17, 17)
+                                .addComponent(jLabel1))
+                            .addGroup(pnHeadLayout.createSequentialGroup()
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jLabel8)))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                 .addGroup(pnHeadLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(pnHeadLayout.createSequentialGroup()
@@ -205,8 +415,8 @@ public class TokoElektronikDashboard extends javax.swing.JFrame {
 
         jLabel4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/tokoelektronik/icons/box.png"))); // NOI18N
 
-        jLabel5.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
-        jLabel5.setText("100 Barang");
+        txtDataBarang.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
+        txtDataBarang.setText("100 Barang");
 
         javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
         jPanel5.setLayout(jPanel5Layout);
@@ -219,7 +429,7 @@ public class TokoElektronikDashboard extends javax.swing.JFrame {
                         .addComponent(jLabel4))
                     .addGroup(jPanel5Layout.createSequentialGroup()
                         .addGap(31, 31, 31)
-                        .addComponent(jLabel5)))
+                        .addComponent(txtDataBarang)))
                 .addContainerGap(37, Short.MAX_VALUE))
         );
         jPanel5Layout.setVerticalGroup(
@@ -228,7 +438,7 @@ public class TokoElektronikDashboard extends javax.swing.JFrame {
                 .addGap(16, 16, 16)
                 .addComponent(jLabel4)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jLabel5)
+                .addComponent(txtDataBarang)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -243,8 +453,8 @@ public class TokoElektronikDashboard extends javax.swing.JFrame {
 
         jLabel7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/tokoelektronik/icons/customer.png"))); // NOI18N
 
-        jLabel8.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
-        jLabel8.setText("20 Pelanggan");
+        txtDataPelanggan.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
+        txtDataPelanggan.setText("20 Pelanggan");
 
         javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
         jPanel6.setLayout(jPanel6Layout);
@@ -256,7 +466,7 @@ public class TokoElektronikDashboard extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel6Layout.createSequentialGroup()
                 .addContainerGap(48, Short.MAX_VALUE)
-                .addComponent(jLabel8)
+                .addComponent(txtDataPelanggan)
                 .addGap(46, 46, 46))
         );
         jPanel6Layout.setVerticalGroup(
@@ -265,7 +475,7 @@ public class TokoElektronikDashboard extends javax.swing.JFrame {
                 .addGap(20, 20, 20)
                 .addComponent(jLabel7)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel8)
+                .addComponent(txtDataPelanggan)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -309,12 +519,9 @@ public class TokoElektronikDashboard extends javax.swing.JFrame {
 
         jSeparator1.setForeground(new java.awt.Color(0, 0, 0));
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        tbBarang.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+
             },
             new String [] {
                 "ID Barang", "Nama Barang", "Harga Barang", "Jumlah Barang"
@@ -328,12 +535,18 @@ public class TokoElektronikDashboard extends javax.swing.JFrame {
                 return types [columnIndex];
             }
         });
-        jScrollPane1.setViewportView(jTable1);
+        tbBarang.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tbBarangMouseClicked(evt);
+            }
+        });
+        jScrollPane1.setViewportView(tbBarang);
 
         btnHapusBarang.setBackground(new java.awt.Color(51, 153, 255));
         btnHapusBarang.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
         btnHapusBarang.setForeground(new java.awt.Color(255, 255, 255));
         btnHapusBarang.setText("Hapus");
+        btnHapusBarang.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btnHapusBarang.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnHapusBarangActionPerformed(evt);
@@ -344,6 +557,35 @@ public class TokoElektronikDashboard extends javax.swing.JFrame {
         btnUbahBarang.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
         btnUbahBarang.setForeground(new java.awt.Color(255, 255, 255));
         btnUbahBarang.setText("Ubah");
+        btnUbahBarang.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnUbahBarang.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnUbahBarangActionPerformed(evt);
+            }
+        });
+
+        jLabel11.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
+        jLabel11.setText("ID Barang");
+
+        jLabel12.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
+        jLabel12.setText("Nama Barang");
+
+        jLabel13.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
+        jLabel13.setText("Harga Barang");
+
+        jLabel14.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
+        jLabel14.setText("Jumlah Barang");
+
+        btnTambahBarang.setBackground(new java.awt.Color(51, 153, 255));
+        btnTambahBarang.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
+        btnTambahBarang.setForeground(new java.awt.Color(255, 255, 255));
+        btnTambahBarang.setText("Tambah");
+        btnTambahBarang.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnTambahBarang.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnTambahBarangActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout pnBarangLayout = new javax.swing.GroupLayout(pnBarang);
         pnBarang.setLayout(pnBarangLayout);
@@ -352,17 +594,32 @@ public class TokoElektronikDashboard extends javax.swing.JFrame {
             .addGroup(pnBarangLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(pnBarangLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jSeparator1)
+                    .addGroup(pnBarangLayout.createSequentialGroup()
+                        .addComponent(jSeparator1, javax.swing.GroupLayout.DEFAULT_SIZE, 855, Short.MAX_VALUE)
+                        .addContainerGap())
                     .addGroup(pnBarangLayout.createSequentialGroup()
                         .addGroup(pnBarangLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel9)
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(pnBarangLayout.createSequentialGroup()
-                                .addComponent(btnHapusBarang)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(btnUbahBarang)))
-                        .addGap(0, 403, Short.MAX_VALUE)))
-                .addContainerGap())
+                                .addGroup(pnBarangLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(btnHapusBarang))
+                                .addGap(57, 57, 57)
+                                .addGroup(pnBarangLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(pnBarangLayout.createSequentialGroup()
+                                        .addComponent(btnTambahBarang)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(btnUbahBarang, javax.swing.GroupLayout.PREFERRED_SIZE, 74, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addGroup(pnBarangLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                        .addComponent(jLabel14)
+                                        .addComponent(fdHargaBarang, javax.swing.GroupLayout.DEFAULT_SIZE, 185, Short.MAX_VALUE)
+                                        .addComponent(jLabel11)
+                                        .addComponent(jLabel12)
+                                        .addComponent(fdNamaBarang)
+                                        .addComponent(jLabel13)
+                                        .addComponent(fdJumlahBarang, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(fdIdBarang, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                        .addGap(0, 0, Short.MAX_VALUE))))
         );
         pnBarangLayout.setVerticalGroup(
             pnBarangLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -372,12 +629,32 @@ public class TokoElektronikDashboard extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(pnBarangLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(pnBarangLayout.createSequentialGroup()
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(btnHapusBarang))
+                    .addGroup(pnBarangLayout.createSequentialGroup()
+                        .addComponent(jLabel11)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(fdIdBarang, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jLabel12)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(fdNamaBarang, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(jLabel13)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(fdHargaBarang, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(jLabel14)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(fdJumlahBarang, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
                 .addGroup(pnBarangLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnHapusBarang)
+                    .addComponent(btnTambahBarang)
                     .addComponent(btnUbahBarang))
-                .addContainerGap(234, Short.MAX_VALUE))
+                .addContainerGap(93, Short.MAX_VALUE))
         );
 
         pnBody.add(pnBarang, "card3");
@@ -389,28 +666,65 @@ public class TokoElektronikDashboard extends javax.swing.JFrame {
 
         jSeparator2.setForeground(new java.awt.Color(0, 0, 0));
 
-        jTable2.setModel(new javax.swing.table.DefaultTableModel(
+        tbPelanggan.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+
             },
             new String [] {
                 "ID Pelanggan", "Nama Pelanggan", "Umur", "No Telepon"
             }
         ));
-        jScrollPane2.setViewportView(jTable2);
+        tbPelanggan.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tbPelangganMouseClicked(evt);
+            }
+        });
+        jScrollPane2.setViewportView(tbPelanggan);
 
         btnHapusPelanggan.setBackground(new java.awt.Color(51, 153, 255));
         btnHapusPelanggan.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
         btnHapusPelanggan.setForeground(new java.awt.Color(255, 255, 255));
         btnHapusPelanggan.setText("Hapus");
+        btnHapusPelanggan.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnHapusPelanggan.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnHapusPelangganActionPerformed(evt);
+            }
+        });
 
         btnUbahPelanggan.setBackground(new java.awt.Color(51, 153, 255));
         btnUbahPelanggan.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
         btnUbahPelanggan.setForeground(new java.awt.Color(255, 255, 255));
         btnUbahPelanggan.setText("Ubah");
+        btnUbahPelanggan.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnUbahPelanggan.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnUbahPelangganActionPerformed(evt);
+            }
+        });
+
+        jLabel15.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
+        jLabel15.setText("ID Pelanggan");
+
+        jLabel16.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
+        jLabel16.setText("Nama Pelanggan");
+
+        jLabel17.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
+        jLabel17.setText("Umur");
+
+        jLabel18.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
+        jLabel18.setText("No Telepon");
+
+        btnTambahPelanggan.setBackground(new java.awt.Color(51, 153, 255));
+        btnTambahPelanggan.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
+        btnTambahPelanggan.setForeground(new java.awt.Color(255, 255, 255));
+        btnTambahPelanggan.setText("Tambah");
+        btnTambahPelanggan.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnTambahPelanggan.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnTambahPelangganActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout pnPelangganLayout = new javax.swing.GroupLayout(pnPelanggan);
         pnPelanggan.setLayout(pnPelangganLayout);
@@ -423,12 +737,28 @@ public class TokoElektronikDashboard extends javax.swing.JFrame {
                     .addGroup(pnPelangganLayout.createSequentialGroup()
                         .addGroup(pnPelangganLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel10)
-                            .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(pnPelangganLayout.createSequentialGroup()
-                                .addComponent(btnHapusPelanggan)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(btnUbahPelanggan)))
-                        .addGap(0, 403, Short.MAX_VALUE)))
+                                .addGroup(pnPelangganLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(btnHapusPelanggan))
+                                .addGap(53, 53, 53)
+                                .addGroup(pnPelangganLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(pnPelangganLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                        .addGroup(pnPelangganLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                            .addComponent(jLabel15, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                            .addComponent(jLabel16))
+                                        .addComponent(fdNamaPelanggan, javax.swing.GroupLayout.DEFAULT_SIZE, 147, Short.MAX_VALUE)
+                                        .addComponent(jLabel17)
+                                        .addGroup(pnPelangganLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                            .addComponent(fdUmur, javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(jLabel18, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                        .addComponent(fdNoTelepon))
+                                    .addComponent(fdIdPelanggan, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGroup(pnPelangganLayout.createSequentialGroup()
+                                        .addComponent(btnTambahPelanggan)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(btnUbahPelanggan)))))
+                        .addGap(0, 203, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         pnPelangganLayout.setVerticalGroup(
@@ -439,12 +769,32 @@ public class TokoElektronikDashboard extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(pnPelangganLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(pnPelangganLayout.createSequentialGroup()
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(btnHapusPelanggan))
+                    .addGroup(pnPelangganLayout.createSequentialGroup()
+                        .addComponent(jLabel15)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(fdIdPelanggan, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jLabel16)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(fdNamaPelanggan, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(jLabel17)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(fdUmur, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(jLabel18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(fdNoTelepon, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
                 .addGroup(pnPelangganLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnHapusPelanggan)
+                    .addComponent(btnTambahPelanggan)
                     .addComponent(btnUbahPelanggan))
-                .addContainerGap(234, Short.MAX_VALUE))
+                .addContainerGap(93, Short.MAX_VALUE))
         );
 
         pnBody.add(pnPelanggan, "card4");
@@ -483,9 +833,7 @@ public class TokoElektronikDashboard extends javax.swing.JFrame {
         txtBar2.setBackground(new Color(255,255,255));
         txtBar3.setBackground(new Color(255,255,255));
         changePanel(spDashboard);
-        
-        
-        
+             
         
     }//GEN-LAST:event_btnDashboardActionPerformed
 
@@ -500,7 +848,289 @@ public class TokoElektronikDashboard extends javax.swing.JFrame {
 
     private void btnHapusBarangActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnHapusBarangActionPerformed
         // TODO add your handling code here:
+        
+        if(tbBarang.getSelectedRow() == -1){
+            
+            if(tbBarang.getRowCount() == 0){
+                
+                JOptionPane.showMessageDialog(this, "Tidak ada data dalam tabel!!!");
+ 
+            }else{
+                
+                JOptionPane.showMessageDialog(this, "Pilih data yang ingin dihapus!!!");
+            }
+            
+        }else{
+            
+            
+            
+            int konfirmasi = JOptionPane.showConfirmDialog(this, "Apakah anda ingin menghapus data ini ?", "Delete", JOptionPane.YES_OPTION);
+            
+            if(konfirmasi == JOptionPane.YES_OPTION){
+                
+                modelBarang.removeRow(tbBarang.getSelectedRow());
+                
+                JOptionPane.showMessageDialog(this, "Data berhasil dihapus");
+                
+                setIdBarang();
+                
+                setDashboard();
+                
+            }
+            
+        }
     }//GEN-LAST:event_btnHapusBarangActionPerformed
+
+    private void btnTambahBarangActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTambahBarangActionPerformed
+        // TODO add your handling code here:
+        
+        String idBarang = fdIdBarang.getText();
+        String namaBarang = fdNamaBarang.getText();
+        int hargaBarang = Integer.valueOf(fdHargaBarang.getText());
+        int jumlahBarang = Integer.valueOf(fdJumlahBarang.getText());
+        
+        DataBarang barang = new DataBarang(idBarang, namaBarang, hargaBarang, jumlahBarang);
+        
+        if(barang.getIdBarang().equalsIgnoreCase("") || barang.getNamaBarang().equalsIgnoreCase("") || barang.getHargaBarang() == 0 || barang.getJumlahBarang() == 0){
+            
+            JOptionPane.showMessageDialog(this, "Ada field yang belum diisi!!!");
+            
+        }else{
+            
+            modelBarang.addRow(new Object[]{
+                barang.getIdBarang(),
+                barang.getNamaBarang(),
+                barang.getHargaBarang(),
+                barang.getJumlahBarang()
+            });
+            
+            JOptionPane.showMessageDialog(this, "Data barang berhasil ditambahkan");
+            emptyFieldsBarang();
+            setIdBarang();
+            setZero();
+            setDashboard();
+            
+        }
+        
+        
+    }//GEN-LAST:event_btnTambahBarangActionPerformed
+
+    private void btnTambahPelangganActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTambahPelangganActionPerformed
+        // TODO add your handling code here:
+        
+        String idPelanggan = fdIdPelanggan.getText();
+        String namaPelanggan = fdNamaPelanggan.getText();
+        int umur = Integer.valueOf(fdUmur.getText());
+        String noTelepon = fdNoTelepon.getText();
+        
+        DataPelanggan pelanggan = new DataPelanggan(idPelanggan, namaPelanggan, umur, noTelepon);
+        
+        if(pelanggan.getIdPelanggan().equals("") || pelanggan.getNamaPelanggan().equals("") || pelanggan.getUmur() == 0 || pelanggan.getNoTelepon().equals("")){
+            JOptionPane.showMessageDialog(this, "Ada field yang belum diisi!!!");
+            
+            
+        }else{
+            modelPelanggan.addRow(new Object[]{
+               pelanggan.getIdPelanggan(),
+               pelanggan.getNamaPelanggan(),
+               pelanggan.getUmur(),
+               pelanggan.getNoTelepon()
+                  
+            });
+            
+            JOptionPane.showMessageDialog(this, "Data barang berhasil ditambahkan");
+            emptyFieldsPelanggan();
+            setIdPelanggan();
+            setZero();
+            setDashboard();
+            
+        }
+    }//GEN-LAST:event_btnTambahPelangganActionPerformed
+
+    private void btnHapusPelangganActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnHapusPelangganActionPerformed
+        // TODO add your handling code here:
+        
+        if(tbPelanggan.getSelectedRow() == -1){
+            
+            if(tbPelanggan.getRowCount() == 0){
+                
+                JOptionPane.showMessageDialog(this, "Tidak ada data dalam tabel!!!");
+                
+            }else{
+                
+                JOptionPane.showMessageDialog(this, "Pilih data yang ingin dihapus!!!");
+            }
+            
+        }else{
+            
+            int konfirmasi = JOptionPane.showConfirmDialog(this, "Apakah anda ingin menghapus data ini ?", "Delete", JOptionPane.YES_OPTION);
+            
+            if(konfirmasi == JOptionPane.YES_OPTION){
+                
+                modelPelanggan.removeRow(tbPelanggan.getSelectedRow());
+                
+                JOptionPane.showMessageDialog(this, "Data berhasil dihapus!!!");
+                
+                setIdPelanggan();
+                
+                setDashboard();
+            }
+            
+        }
+    }//GEN-LAST:event_btnHapusPelangganActionPerformed
+
+    private void tbPelangganMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbPelangganMouseClicked
+        // TODO add your handling code here:
+        
+        int row = tbPelanggan.getSelectedRow();
+        
+        if(tbPelanggan.getSelectedRow() == -1){
+            
+            if(tbPelanggan.getRowCount() == 0){
+                
+                JOptionPane.showMessageDialog(this, "Tidak ada data dalam tabel!!!");
+            }
+            
+        }else{
+            
+            String idPelanggan = (String) modelPelanggan.getValueAt(row, 0);
+            String namaPelanggan = (String) modelPelanggan.getValueAt(row, 1);
+            int umur = Integer.parseInt(String.valueOf(modelPelanggan.getValueAt(row, 2)));
+            String noTelepon = (String) modelPelanggan.getValueAt(row, 3);
+            
+            dataPelanggan = new DataPelanggan(idPelanggan, namaPelanggan, umur, noTelepon);
+            
+            fdIdPelanggan.setText(dataPelanggan.getIdPelanggan());
+            fdNamaPelanggan.setText(dataPelanggan.getNamaPelanggan());
+            fdUmur.setText(String.valueOf(dataPelanggan.getUmur()));
+            fdNoTelepon.setText(dataPelanggan.getNoTelepon());
+            
+        }
+    }//GEN-LAST:event_tbPelangganMouseClicked
+
+    private void tbBarangMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbBarangMouseClicked
+        // TODO add your handling code here:
+        
+        if(tbBarang.getSelectedRow() == -1){
+            
+            if(tbBarang.getRowCount() == 0){
+                
+                JOptionPane.showMessageDialog(this, "Tidak ada data dalam tabel!!!");
+                
+            }
+            
+        }else{
+            
+            String idBarang = (String) modelBarang.getValueAt(tbBarang.getSelectedRow(), 0);
+            String namaBarang = (String) modelBarang.getValueAt(tbBarang.getSelectedRow(), 1);
+            int hargaBarang =  Integer.parseInt(String.valueOf(modelBarang.getValueAt(tbBarang.getSelectedRow(), 2)));
+            int jumlahBarang = Integer.parseInt(String.valueOf(modelBarang.getValueAt(tbBarang.getSelectedRow(), 3)));
+            
+            DataBarang barang = new DataBarang(idBarang, namaBarang, hargaBarang, jumlahBarang);
+            
+            fdIdBarang.setText(barang.getIdBarang());
+            fdNamaBarang.setText(barang.getNamaBarang());
+            fdHargaBarang.setText(String.valueOf(barang.getHargaBarang()));
+            fdJumlahBarang.setText(String.valueOf(barang.getJumlahBarang()));
+            
+        }
+    }//GEN-LAST:event_tbBarangMouseClicked
+
+    private void btnUbahPelangganActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUbahPelangganActionPerformed
+        // TODO add your handling code here:
+        
+        int row = tbPelanggan.getSelectedRow();
+      
+        if(row == -1){
+            
+            if(tbPelanggan.getRowCount() == 0){
+                
+                JOptionPane.showMessageDialog(this, "Tidak ada data dalam tabel!!!");
+                
+            }else{
+                
+                JOptionPane.showMessageDialog(this, "Pilih data yang ingin diubah!!!");
+
+            }
+            
+        }else{
+            
+            int konfirmasi = JOptionPane.showConfirmDialog(this, "Apakah anda ingin mengubah data ini ?", "Edit", JOptionPane.YES_OPTION);
+            
+            if(konfirmasi == JOptionPane.YES_OPTION){
+                
+                modelPelanggan.setValueAt(fdIdPelanggan.getText(), row, 0);
+                modelPelanggan.setValueAt(fdNamaPelanggan.getText(), row, 1);
+                modelPelanggan.setValueAt(fdUmur.getText(), row, 2);
+                modelPelanggan.setValueAt(fdNoTelepon.getText(), row, 3); 
+                
+                JOptionPane.showMessageDialog(this, "Data berhasil diubah");
+                
+            }
+            
+            emptyFieldsPelanggan();
+            setIdPelanggan();
+            setZero();
+   
+        }
+          
+    }//GEN-LAST:event_btnUbahPelangganActionPerformed
+
+    private void btnUbahBarangActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUbahBarangActionPerformed
+        // TODO add your handling code here:
+        
+         int row = tbBarang.getSelectedRow();
+      
+        if(row == -1){
+            
+            if(tbBarang.getRowCount() == 0){
+                
+                JOptionPane.showMessageDialog(this, "Tidak ada data dalam tabel!!!");
+                
+            }else{
+                
+                JOptionPane.showMessageDialog(this, "Pilih data yang ingin diubah!!!");
+
+            }
+            
+        }else{
+            
+            int konfirmasi = JOptionPane.showConfirmDialog(this, "Apakah anda ingin mengubah data ini ?", "Edit", JOptionPane.YES_OPTION);
+            
+            if(konfirmasi == JOptionPane.YES_OPTION){
+                
+                modelBarang.setValueAt(fdIdBarang.getText(), row, 0);
+                modelBarang.setValueAt(fdNamaBarang.getText(), row, 1);
+                modelBarang.setValueAt(fdHargaBarang.getText(), row, 2);
+                modelBarang.setValueAt(fdJumlahBarang.getText(), row, 3); 
+                
+                JOptionPane.showMessageDialog(this, "Data berhasil diubah");
+                
+            }
+            
+            emptyFieldsBarang();
+            setIdBarang();
+            setZero();
+   
+        }
+    }//GEN-LAST:event_btnUbahBarangActionPerformed
+
+    private void jLabel8MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel8MouseClicked
+        // TODO add your handling code here:
+        TokoElektronikLogin tel = new TokoElektronikLogin();
+        
+        int konfirmasi = JOptionPane.showConfirmDialog(this, "Apakah anda ingin keluar?", "Logout", JOptionPane.YES_OPTION);
+        
+        if(konfirmasi == JOptionPane.YES_OPTION){
+            
+            JOptionPane.showMessageDialog(this, "Sampai jumpa, Admin");
+            setVisible(false);
+            tel.setLocationRelativeTo(null);
+            tel.pack();
+            tel.setVisible(true); 
+        }
+        
+    }//GEN-LAST:event_jLabel8MouseClicked
 
     /**
      * @param args the command line arguments
@@ -543,10 +1173,28 @@ public class TokoElektronikDashboard extends javax.swing.JFrame {
     private javax.swing.JButton btnHapusBarang;
     private javax.swing.JButton btnHapusPelanggan;
     private javax.swing.JButton btnPelanggan;
+    private javax.swing.JButton btnTambahBarang;
+    private javax.swing.JButton btnTambahPelanggan;
     private javax.swing.JButton btnUbahBarang;
     private javax.swing.JButton btnUbahPelanggan;
+    private javax.swing.JTextField fdHargaBarang;
+    private javax.swing.JTextField fdIdBarang;
+    private javax.swing.JTextField fdIdPelanggan;
+    private javax.swing.JTextField fdJumlahBarang;
+    private javax.swing.JTextField fdNamaBarang;
+    private javax.swing.JTextField fdNamaPelanggan;
+    private javax.swing.JTextField fdNoTelepon;
+    private javax.swing.JTextField fdUmur;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
+    private javax.swing.JLabel jLabel11;
+    private javax.swing.JLabel jLabel12;
+    private javax.swing.JLabel jLabel13;
+    private javax.swing.JLabel jLabel14;
+    private javax.swing.JLabel jLabel15;
+    private javax.swing.JLabel jLabel16;
+    private javax.swing.JLabel jLabel17;
+    private javax.swing.JLabel jLabel18;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -562,15 +1210,18 @@ public class TokoElektronikDashboard extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JSeparator jSeparator2;
-    private javax.swing.JTable jTable1;
-    private javax.swing.JTable jTable2;
     private javax.swing.JPanel pnBarang;
     private javax.swing.JPanel pnBody;
     private javax.swing.JPanel pnHead;
     private javax.swing.JPanel pnPelanggan;
     private javax.swing.JScrollPane spDashboard;
+    private javax.swing.JTable tbBarang;
+    private javax.swing.JTable tbPelanggan;
     private javax.swing.JLabel txtBar1;
     private javax.swing.JLabel txtBar2;
     private javax.swing.JLabel txtBar3;
+    private javax.swing.JLabel txtDataBarang;
+    private javax.swing.JLabel txtDataPelanggan;
+    private javax.swing.JLabel txtTime;
     // End of variables declaration//GEN-END:variables
 }

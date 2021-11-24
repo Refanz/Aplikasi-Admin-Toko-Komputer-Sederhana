@@ -1,7 +1,6 @@
 package com.tokoelektronik.app;
 
 import com.tokoelektronik.login.TokoElektronikLogin;
-import java.awt.Dimension;
 
 public class TokoElektronikMain {
 

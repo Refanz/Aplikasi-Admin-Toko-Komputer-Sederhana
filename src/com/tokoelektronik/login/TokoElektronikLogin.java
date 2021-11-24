@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.tokoelektronik.login;
 
 import com.tokoelektronik.dashboard.TokoElektronikDashboard;
@@ -11,10 +6,6 @@ import com.tokoelektronik.loadingbar.LoadingView;
 import java.awt.Dimension;
 import javax.swing.JOptionPane;
 
-/**
- *
- * @author Refanda Surya
- */
 public class TokoElektronikLogin extends javax.swing.JFrame {
 
     /**
