@@ -173,25 +173,26 @@ public class TokoElektronikLogin extends javax.swing.JFrame {
     private void btnLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLoginActionPerformed
         // TODO add your handling code here:
         
-        LoadingView lv = new LoadingView();
-        String username = fdUsername.getText().toString();
+        String username = fdUsername.getText();
         String password = String.valueOf(fdPassword.getPassword());
         
         DataLogin dl = new DataLogin(username, password);
         
-        if(dl.cekLogin()){
+        if(dl.cekLogin() == false){
             
+            JOptionPane.showMessageDialog(this, "Username/Password Salah!!!");
+            fdUsername.setText("");
+            fdPassword.setText("");
+            
+        }else{
+            
+            LoadingView lv = new LoadingView();
             JOptionPane.showMessageDialog(this, "Login Berhasil");
             lv.setLocationRelativeTo(null);
             lv.pack();
             setVisible(false);
             lv.setVisible(true);
-            
-        }else{
-            
-            JOptionPane.showMessageDialog(this, "Username/Password Salah!!!");
-            fdUsername.setText("");
-            fdPassword.setText("");
+                
         }
        
         
